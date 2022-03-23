@@ -1,0 +1,34 @@
+﻿@using ReversiMvcApp.DTO
+@{
+    ViewData["Title"] = "Home";
+}
+
+
+<div class="d-flex justify-content-between align-items-center">
+    <h4 class="mb-0">Games that are waiting for a player</h4>
+    <a asp-controller="Game" asp-action="Create" class="btn btn-primary btn-sm">+ New Game</a>
+</div>
+
+<hr>
+
+<table class="table table-striped border">
+    <thead>
+    <tr>
+        <th scope="col">Player1Token</th>
+        <th scope="col">Player2Token</th>
+        <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var game in (List<Game>) ViewData["games"])
+    {
+        <tr>
+            <td>@game.Player1Token</td>
+            <td>@(game.Player2Token ?? "None")</td>
+            <td>@game.Description</td>
+        </tr>
+    }
+
+    </tbody>
+</table>
