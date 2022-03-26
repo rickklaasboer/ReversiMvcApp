@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using ReversiMvcApp.DTO;
+using ReversiMvcApp.Hubs;
 using ReversiMvcApp.Services;
 
 namespace ReversiMvcApp.Controllers
@@ -13,9 +15,12 @@ namespace ReversiMvcApp.Controllers
     {
         private readonly ApiService _api;
 
-        public GameController(ApiService api)
+        private readonly IHubContext<HomeHub> _homeHubContext;
+
+        public GameController(ApiService api, IHubContext<HomeHub> homeHubContext)
         {
             _api = api;
+            _homeHubContext = homeHubContext;
         }
 
         [HttpGet]
@@ -33,6 +38,11 @@ namespace ReversiMvcApp.Controllers
                 game.Description,
                 Player1Token = User.FindFirstValue(ClaimTypes.NameIdentifier)
             }));
+
+            await _homeHubContext.Clients.All.SendAsync(
+                "GAME_CREATED",
+                JsonConvert.SerializeObject(response)
+            );
 
             return Redirect($"/game/details/{response.Token}");
         }

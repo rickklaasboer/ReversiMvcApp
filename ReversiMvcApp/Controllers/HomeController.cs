@@ -29,6 +29,7 @@ namespace ReversiMvcApp.Controllers
             _api = api;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             SyncUser();
