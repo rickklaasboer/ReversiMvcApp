@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReversiMvcApp.DatabaseContexts;
+using ReversiMvcApp.Hubs;
 using ReversiMvcApp.Services;
 
 namespace ReversiMvcApp
@@ -36,8 +37,10 @@ namespace ReversiMvcApp
 
             services.AddDbContext<ReversiDbContext>();
 
+            services.AddSignalR();
+
             services.AddSingleton(_ => new ApiService("https://localhost:5001/api/"));
-            
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -71,9 +74,12 @@ namespace ReversiMvcApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapRazorPages();
+                endpoints.MapHub<HomeHub>("/hubs/home");
+                endpoints.MapHub<GameHub>("/hubs/game");
             });
         }
     }

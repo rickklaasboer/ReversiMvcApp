@@ -20,6 +20,10 @@
         public Color[,] Board { get; set; }
 
         public Color PlayerTurn { get; set; }
+        
+        public bool IsFinished { get; set; }
+
+        public Color Winner { get; set; }
 
         public override string ToString()
         {
