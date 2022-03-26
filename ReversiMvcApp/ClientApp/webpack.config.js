@@ -41,23 +41,5 @@ module.exports = {
     resolve: {
         plugins: [new TsconfigPathsPlugin()],
     },
-    plugins: [
-        new MiniCssExtractPlugin(),
-        new webpack.DefinePlugin({
-            process: {
-                env: {
-                    API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
-                    CDN_ENDPOINT: JSON.stringify(process.env.CDN_ENDPOINT),
-                    UPLOAD_ENDPOINT: JSON.stringify(
-                        process.env.UPLOAD_ENDPOINT,
-                    ),
-                    BUILD_VERSION: JSON.stringify(
-                        `suprmoji-react-spa@${
-                            require('./package.json')['version']
-                        }`,
-                    ),
-                },
-            },
-        }),
-    ],
+    plugins: [new MiniCssExtractPlugin()],
 };

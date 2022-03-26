@@ -74,10 +74,12 @@ namespace ReversiMvcApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapRazorPages();
-                endpoints.MapHub<HomeHub>("/hub/home");
+                endpoints.MapHub<HomeHub>("/hubs/home");
+                endpoints.MapHub<GameHub>("/hubs/game");
             });
         }
     }

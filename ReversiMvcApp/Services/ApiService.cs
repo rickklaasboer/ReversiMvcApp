@@ -37,7 +37,26 @@ namespace ReversiMvcApp.Services
         {
             var response = await _client.GetAsync($"game/{token}");
 
-            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Game>(
+                await response.Content.ReadAsStringAsync()
+            );
+        }
+
+        public async Task<Game> DoTurn(string body)
+        {
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"game/turn", content);
+
+            return JsonConvert.DeserializeObject<Game>(
+                await response.Content.ReadAsStringAsync()
+            );
+        }
+
+        public async Task<Game> AbandonTurn(string body)
+        {
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"game/turn/abandon", content);
+
             return JsonConvert.DeserializeObject<Game>(
                 await response.Content.ReadAsStringAsync()
             );
