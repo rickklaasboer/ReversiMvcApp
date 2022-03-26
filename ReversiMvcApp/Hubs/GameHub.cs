@@ -45,7 +45,7 @@ namespace ReversiMvcApp.Hubs
 
             if (response.Board == null)
             {
-                await Clients.Group(token).SendAsync("INVALID_SKIP_REQUEST");
+                await Clients.Caller.SendAsync("INVALID_SKIP_REQUEST");
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace ReversiMvcApp.Hubs
 
             if (response.Board == null)
             {
-                await Clients.Group(token).SendAsync("INVALID_FICHE_PLACEMENT");
+                await Clients.Caller.SendAsync("INVALID_FICHE_PLACEMENT");
                 return;
             }
 
