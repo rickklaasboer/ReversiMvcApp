@@ -24,7 +24,11 @@ function derivePlayerCountFromTokens(game: Game): string {
 export default function Home() {
     const {games} = useHome();
 
-    if (!games.length) return <Spinner />;
+    if (!Array.isArray(games)) return <Spinner />;
+
+    if (!games.length) {
+        return <p>There are no games. Go create one!</p>;
+    }
 
     return (
         <table className="table table-striped border">

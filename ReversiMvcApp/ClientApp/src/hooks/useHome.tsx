@@ -3,7 +3,7 @@ import {HubConnectionBuilder} from '@microsoft/signalr';
 import {Game} from '@/types';
 
 export default function useHome() {
-    const [games, setGames] = useState<Game[]>([]);
+    const [games, setGames] = useState<Game[] | null>();
 
     // SignalR connection
     const {current: hub} = useRef(
@@ -26,7 +26,7 @@ export default function useHome() {
     const onGameCreated = useCallback(
         (game) => {
             const parsed = JSON.parse(game) as Game;
-            setGames((prevState) => [parsed, ...prevState]);
+            setGames((prevState) => [parsed, ...(prevState ?? [])]);
         },
         [JSON.stringify(games)],
     );
