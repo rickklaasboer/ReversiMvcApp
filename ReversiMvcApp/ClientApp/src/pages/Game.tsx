@@ -29,7 +29,7 @@ const useStyles = createUseStyles({
 
 export default function Game() {
     const styles = useStyles();
-    const {game, onTileClick, onSkip} = useGame();
+    const {game, onTileClick, onSkip, onLeave} = useGame();
 
     if (!game) return <Spinner />;
 
@@ -42,9 +42,9 @@ export default function Game() {
                     <GameBoard game={game} onTileClick={onTileClick} />
                 </div>
                 {game ? (
-                    <div>
+                    <div className="w-100">
                         <GameMeta game={game} />
-                        <GameActions onSkip={onSkip} onLeave={() => null} />
+                        <GameActions onSkip={onSkip} onLeave={onLeave} />
                     </div>
                 ) : null}
             </div>

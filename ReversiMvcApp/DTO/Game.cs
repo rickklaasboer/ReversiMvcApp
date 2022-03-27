@@ -24,6 +24,7 @@
         public bool IsFinished { get; set; }
 
         public Color Winner { get; set; }
+        
 
         public override string ToString()
         {

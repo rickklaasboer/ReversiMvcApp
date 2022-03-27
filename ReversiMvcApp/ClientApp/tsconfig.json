@@ -15,6 +15,7 @@
       "lib": ["dom", "esnext"],
       "typeRoots": ["node_modules/@types", "./types"]
   },
+  "files": ["./src/types/svg.d.ts"],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

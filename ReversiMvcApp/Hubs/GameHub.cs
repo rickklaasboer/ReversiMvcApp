@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -23,16 +24,30 @@ namespace ReversiMvcApp.Hubs
 
         public async Task JoinRoom(string token)
         {
+            var response = await _api.JoinGame(token, GetUserUuid());
+
+            if (response.Token == null)
+            {
+                throw new Exception("Invalid join request");
+            }
+
             await Groups.AddToGroupAsync(Context.ConnectionId, token);
             await Clients.Group(token)
-                .SendAsync("PLAYER_JOINED", $"{GetUserUuid()} has joined the group {token}.");
+                .SendAsync("PLAYER_JOINED", JsonConvert.SerializeObject(response));
         }
 
         public async Task LeaveRoom(string token)
         {
+            var response = await _api.LeaveGame(token, GetUserUuid());
+
+            if (response.Token == null)
+            {
+                throw new Exception("Invalid leave request");
+            }
+
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, token);
             await Clients.Group(token)
-                .SendAsync("PLAYER_LEFT", $"{GetUserUuid()} has left the group {token}.");
+                .SendAsync("PLAYER_LEFT", JsonConvert.SerializeObject(response));
         }
 
         public async Task AbandonTurn(string token)

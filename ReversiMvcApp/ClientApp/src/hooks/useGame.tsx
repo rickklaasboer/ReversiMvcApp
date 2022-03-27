@@ -28,8 +28,13 @@ export default function useGame() {
             await hub.send('Init', uuid);
 
             hub.on(GAME_EVENTS.GAME_INIT, onGameUpdated);
-            hub.on(GAME_EVENTS.PLAYER_JOINED, console.log);
-            hub.on(GAME_EVENTS.PLAYER_LEFT, console.log);
+            hub.on(GAME_EVENTS.PLAYER_JOINED, onGameUpdated);
+            hub.on(GAME_EVENTS.PLAYER_LEFT, (game) => {
+                toast(
+                    'A player left the game, wait for another player to join or invite someone.',
+                );
+                onGameUpdated(game);
+            });
             hub.on(GAME_EVENTS.FICHE_PLACED, onGameUpdated);
             hub.on(GAME_EVENTS.PLAYER_ABANDONED_TURN, onGameUpdated);
             hub.on(GAME_EVENTS.INVALID_FICHE_PLACEMENT, () => {
@@ -47,7 +52,7 @@ export default function useGame() {
         })();
     }, []);
 
-    async function onGameUpdated(game: string) {
+    function onGameUpdated(game: string) {
         const parsed = JSON.parse(game) as GameType;
         setGame(parsed);
     }
@@ -60,9 +65,15 @@ export default function useGame() {
         await hub.send('AbandonTurn', uuid);
     }
 
+    async function onLeave() {
+        await hub.send('LeaveRoom', uuid);
+        window.location.href = '/';
+    }
+
     return {
         game,
         onTileClick,
         onSkip,
+        onLeave,
     };
 }

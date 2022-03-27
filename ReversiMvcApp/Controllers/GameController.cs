@@ -51,6 +51,7 @@ namespace ReversiMvcApp.Controllers
         public async Task<IActionResult> Details(string id)
         {
             ViewData["game"] = await _api.GetGameByToken(id);
+            ViewData["PlayerToken"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View();
         }
     }

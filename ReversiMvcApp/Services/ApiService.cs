@@ -41,7 +41,27 @@ namespace ReversiMvcApp.Services
                 await response.Content.ReadAsStringAsync()
             );
         }
+        
+        /// <summary>
+        /// Create a new game
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public async Task<Game> CreateGame(string body)
+        {
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("game", content);
 
+            return JsonConvert.DeserializeObject<Game>(
+                await response.Content.ReadAsStringAsync()
+            );
+        }
+
+        /// <summary>
+        /// Do a turn
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         public async Task<Game> DoTurn(string body)
         {
             var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -52,6 +72,11 @@ namespace ReversiMvcApp.Services
             );
         }
 
+        /// <summary>
+        /// Abandon/skip a turn
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         public async Task<Game> AbandonTurn(string body)
         {
             var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -63,14 +88,37 @@ namespace ReversiMvcApp.Services
         }
 
         /// <summary>
-        /// Create a new game
+        /// Join a game
         /// </summary>
-        /// <param name="body"></param>
+        /// <param name="token"></param>
+        /// <param name="playerToken"></param>
         /// <returns></returns>
-        public async Task<Game> CreateGame(string body)
+        public async Task<Game> JoinGame(string token, string playerToken)
         {
-            var content = new StringContent(body, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("game", content);
+            var content = new StringContent(JsonConvert.SerializeObject(new
+            {
+                PlayerToken = playerToken
+            }), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"game/{token}/join", content);
+
+            return JsonConvert.DeserializeObject<Game>(
+                await response.Content.ReadAsStringAsync()
+            );
+        }
+        
+        /// <summary>
+        /// Leave a game
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="playerToken"></param>
+        /// <returns></returns>
+        public async Task<Game> LeaveGame(string token, string playerToken)
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(new
+            {
+                PlayerToken = playerToken
+            }), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"game/{token}/leave", content);
 
             return JsonConvert.DeserializeObject<Game>(
                 await response.Content.ReadAsStringAsync()

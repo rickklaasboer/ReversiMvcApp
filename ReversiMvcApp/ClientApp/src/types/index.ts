@@ -3,7 +3,7 @@ export type Game = {
     Description: string;
     Player1Token: string;
     Player2Token: string | null;
-    PlayerTurn: 0 | 1;
+    PlayerTurn: 0 | 1 | 2;
     Board: number[][];
     IsFinished: boolean;
     Winner: string;

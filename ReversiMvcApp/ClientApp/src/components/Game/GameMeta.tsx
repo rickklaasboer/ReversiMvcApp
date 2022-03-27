@@ -5,24 +5,28 @@ type Props = {
     game: Game;
 };
 
-const colors = ['NONE', 'WHITE', 'BLACK'];
+const colors = ['None', 'White', 'Black'];
+
+function whoAmI({Player1Token}: Game) {
+    const token = document.getElementById('game')?.dataset.playertoken;
+
+    if (Player1Token === token) {
+        return colors[1];
+    } else {
+        return colors[2];
+    }
+}
 
 export default function GameMeta({game}: Props) {
     return (
-        <div className="card">
-            <div className="card-header">{game.Token}</div>
+        <div className="card w-100">
+            <div className="card-header">{game.Description}</div>
             <div className="card-body">
-                <h6>Description</h6>
-                <p>{game.Description}</p>
-
                 <h6>Turn</h6>
-                <p>{game.PlayerTurn && colors[game.PlayerTurn]}</p>
-
-                <h6>Player1Token</h6>
-                <p>{game.Player1Token}</p>
-
-                <h6>Player2Token</h6>
-                <p>{game.Player2Token ?? 'N/A'}</p>
+                <p className="mb-0">
+                    {game.PlayerTurn && colors[game.PlayerTurn]}
+                    <i> (You are {whoAmI(game)})</i>
+                </p>
             </div>
         </div>
     );
