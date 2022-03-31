@@ -1,7 +1,7 @@
 import React from 'react';
-import Spinner from '@/components/Spinner';
 import useHome from '@/hooks/useHome';
 import {Game} from '@/types';
+import Kanye from '@/components/Kanye';
 
 /**
  * Derive player count from player tokens
@@ -24,37 +24,42 @@ function derivePlayerCountFromTokens(game: Game): string {
 export default function Home() {
     const {games} = useHome();
 
-    if (!Array.isArray(games)) return <Spinner />;
-
-    if (!games.length) {
-        return <p>There are no games. Go create one!</p>;
-    }
-
     return (
-        <table className="table table-striped border">
-            <thead>
-                <tr>
-                    <th scope="col">Description</th>
-                    <th scope="col">Players</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                {games?.map((game) => (
-                    <tr key={game.Token}>
-                        <td>{game.Description}</td>
-                        <td>{derivePlayerCountFromTokens(game)}</td>
-                        <td>
-                            <a
-                                className="btn btn-primary float-right"
-                                href={`/game/details/${game.Token}`}
-                            >
-                                Join
-                            </a>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className="row">
+            <div className="col-9">
+                <table className="table table-striped border">
+                    <thead>
+                        <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Players</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {games?.length ? (
+                            games.map((game) => (
+                                <tr key={game.Token}>
+                                    <td>{game.Description}</td>
+                                    <td>{derivePlayerCountFromTokens(game)}</td>
+                                    <td>
+                                        <a
+                                            className="btn btn-primary float-right"
+                                            href={`/game/details/${game.Token}`}
+                                        >
+                                            Join
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <p>There are no games. Go create one!</p>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            <div className="col-3">
+                <Kanye />
+            </div>
+        </div>
     );
 }
