@@ -7,6 +7,7 @@ import GameActions from '@/components/Game/GameActions';
 import FinishedOverlay from '@/components/Board/FinishedOverlay';
 import GameBoard from '@/components/Board/GameBoard';
 import Spinner from '@/components/Spinner';
+import FicheDistributionChart from '@/components/Game/FicheDistributionChart';
 
 const useStyles = createUseStyles({
     wrapper: {
@@ -43,8 +44,10 @@ export default function Game() {
                 </div>
                 {game ? (
                     <div className="w-100">
-                        <GameMeta game={game} />
-                        <GameActions onSkip={onSkip} onLeave={onLeave} />
+                        <GameMeta game={game}>
+                            <GameActions onSkip={onSkip} onLeave={onLeave} />
+                        </GameMeta>
+                        <FicheDistributionChart game={game} />
                     </div>
                 ) : null}
             </div>
