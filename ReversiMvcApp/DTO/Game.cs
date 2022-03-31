@@ -25,7 +25,12 @@
 
         public Color Winner { get; set; }
         
-
+        public bool DidFinish { get; set; }
+        
+        public string WinningPlayer { get; set; }
+        
+        public Color WinningPlayerColor { get; set; }
+        
         public override string ToString()
         {
             return $"Token={Token};\nDescription={Description};\nPlayer1Token={Player1Token};\nPlayer2Token={Player2Token};\nBoard={Board};\nPlayerTurn={PlayerTurn};";

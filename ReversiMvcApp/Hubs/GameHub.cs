@@ -19,7 +19,10 @@ namespace ReversiMvcApp.Hubs
 
         public async Task Init(string token)
         {
-            await Clients.Caller.SendAsync("GAME_INIT", JsonConvert.SerializeObject(await _api.GetGameByToken(token)));
+            await Clients.Caller.SendAsync(
+                "GAME_INIT",
+                JsonConvert.SerializeObject(await _api.GetGameByToken(token))
+            );
         }
 
         public async Task JoinRoom(string token)
@@ -32,8 +35,10 @@ namespace ReversiMvcApp.Hubs
             }
 
             await Groups.AddToGroupAsync(Context.ConnectionId, token);
-            await Clients.Group(token)
-                .SendAsync("PLAYER_JOINED", JsonConvert.SerializeObject(response));
+            await Clients.Group(token).SendAsync(
+                "PLAYER_JOINED",
+                JsonConvert.SerializeObject(response)
+            );
         }
 
         public async Task LeaveRoom(string token)
@@ -47,7 +52,10 @@ namespace ReversiMvcApp.Hubs
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, token);
             await Clients.Group(token)
-                .SendAsync("PLAYER_LEFT", JsonConvert.SerializeObject(response));
+                .SendAsync(
+                    "PLAYER_LEFT",
+                    JsonConvert.SerializeObject(response)
+                );
         }
 
         public async Task AbandonTurn(string token)
@@ -66,10 +74,16 @@ namespace ReversiMvcApp.Hubs
 
             if (response.IsFinished)
             {
-                await Clients.Group(token).SendAsync("GAME_FINISHED", JsonConvert.SerializeObject(response));
+                await Clients.Group(token).SendAsync(
+                    "GAME_FINISHED",
+                    JsonConvert.SerializeObject(response)
+                );
             }
 
-            await Clients.Group(token).SendAsync("PLAYER_ABANDONED_TURN", JsonConvert.SerializeObject(response));
+            await Clients.Group(token).SendAsync(
+                "PLAYER_ABANDONED_TURN",
+                JsonConvert.SerializeObject(response)
+            );
         }
 
         public async Task PlaceFiche(string token, int x, int y, int color)
@@ -88,12 +102,18 @@ namespace ReversiMvcApp.Hubs
                 return;
             }
 
-            if (response.IsFinished)
+            if (response.DidFinish)
             {
-                await Clients.Group(token).SendAsync("GAME_FINISHED", JsonConvert.SerializeObject(response));
+                await Clients.Group(token).SendAsync(
+                    "GAME_FINISHED",
+                    JsonConvert.SerializeObject(response)
+                );
             }
 
-            await Clients.Group(token).SendAsync("FICHE_PLACED", JsonConvert.SerializeObject(response));
+            await Clients.Group(token).SendAsync(
+                "FICHE_PLACED",
+                JsonConvert.SerializeObject(response)
+            );
         }
 
         private string GetUserUuid()
