@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Identity
+@model List<ReversiMvcApp.Controllers.StatisticRow>
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h1>Statistics</h1>
+
+<table class="table border table-striped">
+    <thead>
+    <tr>
+        <th>
+            Player
+        </th>
+        <th>
+            Wins
+        </th>
+        <th>
+            Losses
+        </th>
+        <th>
+            Ties
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in (List<IdentityUser>) ViewBag.Users)
+    {
+        <tr>
+            <td>
+                @user.Email
+            </td>
+            <td>
+                @Model.Count(x => x.WinningPlayer?.Id == user.Id)
+            </td>
+            <td>
+                @Model.Count(x => x.WinningPlayer?.Id != user.Id && (x.Player1?.Id == user.Id || x.Player2?.Id == user.Id))
+            </td>
+            <td>
+                @Model.Count(x => x.WinningPlayer?.Id == null && (x.Player1?.Id == user.Id || x.Player2?.Id == user.Id))
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -41,7 +41,7 @@ namespace ReversiMvcApp.Services
                 await response.Content.ReadAsStringAsync()
             );
         }
-        
+
         /// <summary>
         /// Create a new game
         /// </summary>
@@ -105,7 +105,7 @@ namespace ReversiMvcApp.Services
                 await response.Content.ReadAsStringAsync()
             );
         }
-        
+
         /// <summary>
         /// Leave a game
         /// </summary>
@@ -123,6 +123,20 @@ namespace ReversiMvcApp.Services
             return JsonConvert.DeserializeObject<Game>(
                 await response.Content.ReadAsStringAsync()
             );
+        }
+
+        /// <summary>
+        /// Get all statistics (mega performant, of course)
+        /// </summary>
+        public async Task<List<GameStatistic>> GetStatistics()
+        {
+            var response = await _client.GetAsync("statistics");
+
+            var parsed = JsonConvert.DeserializeObject<List<GameStatistic>>(
+                await response.Content.ReadAsStringAsync()
+            );
+
+            return parsed;
         }
     }
 }
