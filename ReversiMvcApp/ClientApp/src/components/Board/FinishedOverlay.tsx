@@ -15,6 +15,7 @@ const useStyles = createUseStyles({
         width: '100%',
         height: '100%',
         backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        textAlign: 'center',
         zIndex: 999,
     },
 });

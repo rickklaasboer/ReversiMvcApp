@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
         background: '#2A2D34',
         border: '15px solid #2A2D34',
         aspectRatio: '1/1',
-        height: '75vh',
+        height: '90vh',
         display: 'grid',
         gridTemplateColumns: 'repeat(8, 1fr)',
         columnGap: 3,

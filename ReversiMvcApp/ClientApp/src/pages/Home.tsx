@@ -27,17 +27,17 @@ export default function Home() {
     return (
         <div className="row">
             <div className="col-9">
-                <table className="table table-striped border">
-                    <thead>
-                        <tr>
-                            <th scope="col">Description</th>
-                            <th scope="col">Players</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {games?.length ? (
-                            games.map((game) => (
+                {Array.isArray(games) && games.length ? (
+                    <table className="table table-striped border">
+                        <thead>
+                            <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Players</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {games.map((game) => (
                                 <tr key={game.Token}>
                                     <td>{game.Description}</td>
                                     <td>{derivePlayerCountFromTokens(game)}</td>
@@ -50,12 +50,12 @@ export default function Home() {
                                         </a>
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <p>There are no games. Go create one!</p>
-                        )}
-                    </tbody>
-                </table>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>There are no games. Go create one!</p>
+                )}
             </div>
             <div className="col-3">
                 <Kanye />
