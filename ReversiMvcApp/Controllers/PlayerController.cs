@@ -8,7 +8,7 @@ using ReversiMvcApp.Models;
 
 namespace ReversiMvcApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PlayerController : Controller
     {
         private readonly ReversiDbContext _context;

@@ -93,6 +93,7 @@ namespace ReversiMvcApp.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        await _userManager.AddToRoleAsync(user, "Player");
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else

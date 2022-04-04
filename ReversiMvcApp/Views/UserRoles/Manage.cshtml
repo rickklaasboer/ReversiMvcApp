@@ -1,0 +1,37 @@
+@model ManageUserViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            Managing @Model.User.Email
+        </div>
+        <div class="card-body">
+            @foreach (var role in Model.AvailableRoles)
+            {
+                <div class="form-check">
+
+                    @if (Model.UserRoles.Contains(role))
+                    {
+                        <input class="form-check-input" type="checkbox" value="@role" name="roles[]" id="@role" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" value="@role" name="roles[]" id="@role">
+                    }
+
+                    <label class="form-check-label" for="@role">
+                        @role
+                    </label>
+                </div>
+            }
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button type="submit" class="btn btn-sm btn-success mr-2">Save</button>
+            <a asp-controller="UserRoles" asp-action="Index" class="btn btn-sm btn-danger">Cancel</a>
+        </div>
+    </div>
+</form>
